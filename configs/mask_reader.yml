@@ -3,9 +3,9 @@ TrainReader:
     fields: ['image', 'im_info', 'im_id', 'gt_bbox', 'gt_class', 'is_crowd', 'gt_mask']
   dataset:
     !COCODataSet
-    image_dir: train2017
-    anno_path: annotations/instances_train2017.json
-    dataset_dir: dataset/coco
+    image_dir: images/cut_train
+    anno_path: annotations/cut_instances_10_train.json
+    dataset_dir: dataset/coco_v5
   sample_transforms:
   - !DecodeImage
     to_rgb: true
@@ -38,9 +38,9 @@ EvalReader:
     #fields: ['image', 'im_info', 'im_id', 'gt_bbox', 'gt_class', 'is_difficult']
   dataset:
     !COCODataSet
-    image_dir: val2017
-    anno_path: annotations/instances_val2017.json
-    dataset_dir: dataset/coco
+    image_dir: images/cut_train
+    anno_path: annotations/cut_instances_10_val.json
+    dataset_dir: dataset/coco_v5
   sample_transforms:
   - !DecodeImage
     to_rgb: true
