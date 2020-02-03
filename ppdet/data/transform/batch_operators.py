@@ -76,6 +76,37 @@ class PadBatch(BaseOperator):
             data['image'] = padding_im
             if self.use_padded_im_info:
                 data['im_info'][:2] = max_shape[1:3]
+            #im_ori = np.swapaxes(padding_im, 1, 0)
+            #im_ori = np.swapaxes(im_ori, 1, 2)
+            #mean = np.array([0.485,0.456,0.406])[np.newaxis, np.newaxis, :]
+            #std = np.array([0.229, 0.224,0.225])[np.newaxis, np.newaxis, :]
+            #im_ori *= std
+            #im_ori += mean
+            #im_ori *= 255
+            #im_ori = im_ori.astype('uint8')
+            #im_ori = cv2.cvtColor(im_ori, cv2.COLOR_RGB2BGR)
+            #gt_bbox = data['gt_bbox']
+            #gt_poly = data['gt_poly']
+            #for b in range(gt_bbox.shape[0]):
+            #    gxmin, gymin, gxmax, gymax = gt_bbox[b, :] * data['im_info'][2]
+            #    cv2.rectangle(
+            #        im_ori,
+            #        pt1=(int(gxmin), int(gymin)),
+            #        pt2=(int(gxmax), int(gymax)),
+            #        color=(0, 255, 0),
+            #        thickness=1)
+            #for segm in gt_poly:
+            #    segm = np.array(segm) * data['im_info'][2]
+            #    segm = segm.astype('int64')
+            #    segm = segm.reshape(1, -1, 2)
+            #    cv2.polylines(im_ori, np.array([segm]), 1, (255, 0, 0), 1)
+            #save_dir = '/rrpn/PaddleDetection/middle_crop'
+            #import os.path as osp
+            #import os
+            #if not osp.exists(save_dir):
+            #    os.makedirs(save_dir)
+            #cv2.imwrite(osp.join(save_dir, data['im_file'].split('/')[-1]), im_ori)
+        
         return samples
 
 

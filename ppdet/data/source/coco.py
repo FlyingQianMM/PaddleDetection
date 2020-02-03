@@ -91,10 +91,17 @@ class COCODataSet(DataSet):
             coco.loadCats(catid)[0]['name']: clsid
             for catid, clsid in catid2clsid.items()
         })
-
+        cid2cname = dict({
+            clsid: coco.loadCats(catid)[0]['name']
+            for catid, clsid in catid2clsid.items()
+        })
         for img_id in img_ids:
             img_anno = coco.loadImgs(img_id)[0]
             im_fname = img_anno['file_name']
+            #if im_fname != '22-4_1110_xiemian_0_2.jpg':
+            #    continue
+            #if im_fname != '11-2_quexian_1111_xiemian_0_0.jpg':
+            #    continue
             im_w = float(img_anno['width'])
             im_h = float(img_anno['height'])
 
@@ -102,6 +109,11 @@ class COCODataSet(DataSet):
             instances = coco.loadAnns(ins_anno_ids)
 
             bboxes = []
+            #import cv2
+            #img_file = os.path.join(image_dir,
+            #            im_fname) if image_dir else im_fname
+            #im_data = cv2.imread(img_file)
+ 
             for inst in instances:
                 x, y, box_w, box_h = inst['bbox']
                 x1 = max(0, x)
@@ -116,6 +128,19 @@ class COCODataSet(DataSet):
                         'Found an invalid bbox in annotations: im_id: {}, '
                         'area: {} x1: {}, y1: {}, x2: {}, y2: {}.'.format(
                             img_id, float(inst['area']), x1, y1, x2, y2))
+                #cv2.rectangle(
+                #    im_data,
+                #    pt1=(int(x1), int(y1)),
+                #    pt2=(int(x2), int(y2)),
+                #    color=(255, 0, 0),
+                #    thickness=3)
+                #print("name: {} x1: {} y1: {} w: {} h: {}".format(im_fname, x1, y1, x2-x1, y2-y1))
+                #text = "{}".format(cid2cname[catid2clsid[inst['category_id']]])
+                #font = cv2.FONT_HERSHEY_SIMPLEX
+                #cv2.putText(im_data, text, (int(x1), int(y1)), font, 1,
+                #            (255, 0, 0), 2)
+
+            #cv2.imwrite('./show_img/{}'.format(im_fname), im_data)
             num_bbox = len(bboxes)
 
             gt_bbox = np.zeros((num_bbox, 4), dtype=np.float32)

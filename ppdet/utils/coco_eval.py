@@ -148,6 +148,15 @@ def cocoapi_eval(jsonfile,
     coco_eval.evaluate()
     coco_eval.accumulate()
     coco_eval.summarize()
+
+    pr = coco_eval.eval['precision'][0, :, :, 0, 2]
+    precision = pr[pr>-1]
+    precision = precision.reshape([101, int(precision.shape[0] / 101)])
+    class_num = len(coco_eval.params.catIds)
+    APs = [None] * class_num
+    for i in range(class_num):
+        APs[i] = np.mean(precision[:, i])
+        print('class {}, AP: {}'.format(i, APs[i]))
     return coco_eval.stats
 
 
